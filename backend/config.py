@@ -5,7 +5,11 @@ load_dotenv()
 
 
 class Settings:
-    DATABASE_URL: str = os.getenv("DATABASE_URL", "postgresql://postgres:postgres@localhost:5432/rest_api_db")
+    DATABASE_URL: str = os.getenv(
+        "DATABASE_URL",
+        "postgresql://postgres:postgres@localhost:5432/rest_api_db",
+    )
+    # Use SQLite for zero-setup dev: set DATABASE_URL=sqlite:///./app.db
     SECRET_KEY: str = os.getenv("SECRET_KEY", "change-me-in-production-min-32-chars")
     ALGORITHM: str = os.getenv("ALGORITHM", "HS256")
     ACCESS_TOKEN_EXPIRE_MINUTES: int = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "30"))
