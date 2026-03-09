@@ -47,3 +47,8 @@ app.include_router(tasks.router, prefix="/api/v1")
 @app.get("/")
 def root():
     return {"message": "API running", "docs": "/docs"}
+
+
+@app.get("/health")
+def health():
+    return {"status": "ok"}
