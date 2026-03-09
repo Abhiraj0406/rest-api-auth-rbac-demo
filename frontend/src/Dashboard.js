@@ -31,6 +31,10 @@ export default function Dashboard({ user, onLogout }) {
       const data = await getTasks();
       setTasks(Array.isArray(data) ? data : []);
     } catch (err) {
+      if (err.status === 401) {
+        onLogout();
+        return;
+      }
       showError(typeof err.detail === 'string' ? err.detail : (err.detail?.detail || 'Failed to load tasks'));
     } finally {
       setLoading(false);
@@ -50,6 +54,7 @@ export default function Dashboard({ user, onLogout }) {
       setDescription('');
       loadTasks();
     } catch (err) {
+      if (err.status === 401) { onLogout(); return; }
       const msg = typeof err.detail === 'string' ? err.detail : (Array.isArray(err.detail) ? err.detail.map(d => d.msg).join(' ') : 'Create failed');
       showError(msg);
     }
@@ -63,6 +68,7 @@ export default function Dashboard({ user, onLogout }) {
       setEditingId(null);
       loadTasks();
     } catch (err) {
+      if (err.status === 401) { onLogout(); return; }
       showError(typeof err.detail === 'string' ? err.detail : 'Update failed');
     }
   }
@@ -75,6 +81,7 @@ export default function Dashboard({ user, onLogout }) {
       showSuccess('Task deleted.');
       loadTasks();
     } catch (err) {
+      if (err.status === 401) { onLogout(); return; }
       showError(typeof err.detail === 'string' ? err.detail : 'Delete failed');
     }
   }
