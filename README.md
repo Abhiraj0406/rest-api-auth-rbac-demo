@@ -181,9 +181,12 @@ Authorization: Bearer <access_token>
 
 - **Password hashing:** `passlib` with `bcrypt` (`bcrypt` pinned to a compatible version).
 - **JWT tokens:** signed with `SECRET_KEY` and `HS256`, containing `sub` (user id) and `role`.
-- **Roles:**
-  - `user` – can only see and modify their own tasks.
-  - `admin` – can see and manage all tasks.
+- **Roles (user vs admin):**
+  - Every account is created via the public Register API/UI as a **normal user** (`role = "user"`).
+  - To create an **admin** account, a maintainer promotes an existing user in the database by updating the `role` column to `"admin"` (e.g. in PostgreSQL: `UPDATE users SET role = 'admin' WHERE email = 'admin@example.com';`). This matches a typical production flow where admin rights are granted explicitly by operators, not by a self‑service form.
+  - At runtime:
+    - `user` – can only see and modify their **own** tasks.
+    - `admin` – can list **all** tasks and access/modify any task.
 - **Protected routes:** use a dependency that decodes JWT, loads the user, and enforces `is_active` and role checks.
 
 To promote a user to admin, update the `role` column to `"admin"` in the `users` table (e.g., via pgAdmin).
