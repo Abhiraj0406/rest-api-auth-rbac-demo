@@ -1,12 +1,18 @@
 from datetime import datetime
 from typing import Optional, List
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, validator
 
 
 class UserCreate(BaseModel):
     email: EmailStr
     password: str
     full_name: Optional[str] = None
+
+    @validator("password")
+    def password_min_length(cls, v):
+        if len(v) < 8:
+            raise ValueError("Password must be at least 8 characters")
+        return v
 
 
 class UserResponse(BaseModel):
