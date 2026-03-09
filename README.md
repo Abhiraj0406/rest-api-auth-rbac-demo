@@ -62,3 +62,21 @@ Protected routes require header: `Authorization: Bearer <token>`.
 - **Database**: Use connection pooling (e.g. SQLAlchemy pool settings); consider read replicas for heavy read load.
 - **Caching**: Add Redis for token blacklist or hot data (e.g. task lists) to reduce DB load.
 - **Deployment**: Run behind a reverse proxy (e.g. Nginx); use multiple uvicorn workers or Gunicorn+Uvicorn. Optional: containerize with Docker and orchestrate with Kubernetes for auto-scaling and load balancing.
+
+## Step-by-step push workflow
+
+Do one small change at a time, then commit and push:
+
+```bash
+# 1. Make a small change (e.g. one file or one feature)
+# 2. Stage only what changed
+git add <files>
+
+# 3. Commit with a short, clear message
+git commit -m "Add: <short description>"
+
+# 4. Push immediately
+git push
+```
+
+Example small tasks: "Add validation to register", "Add task loading spinner", "Fix CORS for production", "Add .env.example for frontend".
